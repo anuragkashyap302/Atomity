@@ -96,25 +96,32 @@ Data fetching is handled using **TanStack React Query**, which provides:
 - Reduced unnecessary network requests
 
 ---
-# architecture diagram
+##  Architecture
 
-DummyJSON API
-        │
-        ▼
-Axios Client
-        │
-        ▼
-React Query
-        │
-        ▼
-Transform API Data
-        │
-        ▼
-Cloud Dashboard
-        │
-        ├── Clusters
-        ├── Namespaces
-        └── Pods
+```text
+                     DummyJSON API
+                           │
+                           ▼
+                     Axios API Client
+                           │
+                           ▼
+                  React Query Cache
+                           │
+                           ▼
+                Custom Hooks Layer
+         ┌────────────┬──────────────┐
+         ▼            ▼              ▼
+   useClusters   useNamespaces    usePods
+         │            │              │
+         └────────────┴──────────────┘
+                      │
+                      ▼
+             Cloud Cost Dashboard
+                      │
+        ┌─────────────┼─────────────┐
+        ▼             ▼             ▼
+    Cluster Grid   Namespace List   Pod List
+```
 
 # Component Structure
 
