@@ -1,6 +1,9 @@
+import { useState } from "react";
 import { motion } from "framer-motion";
-
+import ClusterGrid from "../ClusterGrid/ClusterGrid";
 export default function FeatureSection() {
+
+    const [selectedCluster, setSelectedCluster] = useState<number | null>(null);
   return (
     <section className="relative overflow-hidden py-24">
       <div className="mx-auto max-w-7xl px-6">
@@ -28,6 +31,7 @@ export default function FeatureSection() {
             Drill down from clusters to namespaces and pods with smooth,
             interactive transitions inspired by modern cloud platforms.
           </p>
+          <ClusterGrid selectedCluster={selectedCluster} onSelectCluster={setSelectedCluster} />
         </motion.div>
 
       </div>
