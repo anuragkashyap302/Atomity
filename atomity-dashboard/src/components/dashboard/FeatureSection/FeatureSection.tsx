@@ -1,15 +1,32 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import ClusterGrid from "../ClusterGrid/ClusterGrid";
 import NamespaceList from "../NamespaceList/NamespaceList";
 import { useClusters } from "../../../hooks/useClusters";
-import { Server, Activity, DollarSign, Cpu, ArrowLeft } from "lucide-react";
+import { Server, Activity, DollarSign, Cpu, ArrowLeft, X } from "lucide-react";
 import Badge from "../../ui/Badge/Badge";
 import type { Cluster } from "../../../types/cluster";
 
 export default function FeatureSection() {
   const [selectedCluster, setSelectedCluster] = useState<number | null>(null);
   const { data: clusters } = useClusters();
+
+  // Escape key closer and scroll lock for slide-over drawer
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        setSelectedCluster(null);
+      }
+    };
+    if (selectedCluster !== null) {
+      window.addEventListener("keydown", handleKeyDown);
+      document.body.style.overflow = "hidden";
+    }
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+      document.body.style.overflow = "";
+    };
+  }, [selectedCluster]);
 
   // Compute live aggregates from cached react-query data
   const totalCost = clusters?.reduce((acc: number, c: Cluster) => acc + c.cost, 0) || 0;
@@ -30,7 +47,7 @@ export default function FeatureSection() {
 
       {/* Main SaaS Global Header */}
       <header className="border-b border-border-primary bg-bg-primary/80 backdrop-blur-md sticky top-0 z-50">
-        <div className="mx-auto max-w-7xl px-6 h-16 flex items-center justify-between">
+        <div className="mx-auto max-w-full px-6 md:px-10 lg:px-12 h-16 flex items-center justify-between">
           <div className="flex items-center gap-3">
             <div className="h-8 w-8 rounded-lg bg-brand flex items-center justify-center font-bold text-white shadow-md shadow-brand/20 select-none">
               A
@@ -49,7 +66,7 @@ export default function FeatureSection() {
         </div>
       </header>
 
-      <div className="mx-auto max-w-7xl px-6 pt-14 pb-10">
+      <div className="mx-auto max-w-full px-6 md:px-10 lg:px-12 pt-14 pb-10">
         {/* Hero Area */}
         <motion.div
           initial={{ opacity: 0, y: -20 }}
@@ -152,22 +169,54 @@ export default function FeatureSection() {
             selectedCluster={selectedCluster}
             onSelectCluster={setSelectedCluster}
           />
-
-          <AnimatePresence mode="wait">
-            {selectedCluster !== null && (
-              <motion.div
-                key={selectedCluster}
-                initial={{ opacity: 0, y: 30 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -30 }}
-                transition={{ duration: 0.4, type: "spring", bounce: 0.15 }}
-              >
-                <NamespaceList clusterId={selectedCluster} />
-              </motion.div>
-            )}
-          </AnimatePresence>
         </div>
       </div>
+
+      {/* Slide-over Cluster Details Drawer Overlay */}
+      <AnimatePresence>
+        {selectedCluster !== null && (
+          <>
+            {/* Backdrop */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setSelectedCluster(null)}
+              className="fixed inset-0 bg-black/60 backdrop-blur-xs z-50 cursor-pointer"
+            />
+            {/* Drawer Body Panel */}
+            <motion.div
+              initial={{ x: "100%" }}
+              animate={{ x: 0 }}
+              exit={{ x: "100%" }}
+              transition={{ type: "spring", damping: 25, stiffness: 220 }}
+              className="fixed inset-y-0 right-0 w-full max-w-2xl bg-bg-primary/95 border-l border-border-primary z-50 shadow-2xl p-6 md:p-8 overflow-y-auto flex flex-col gap-6"
+            >
+              <div className="flex items-center justify-between border-b border-border-primary pb-5">
+                <div>
+                  <span className="text-xs font-semibold uppercase tracking-wider text-brand font-mono">
+                    Cluster Inspector
+                  </span>
+                  <h2 className="text-2xl font-bold text-text-primary mt-1">
+                    {selectedClusterObj?.name || `Cluster ${selectedCluster}`}
+                  </h2>
+                </div>
+                <button
+                  onClick={() => setSelectedCluster(null)}
+                  className="p-2 text-text-secondary hover:text-text-primary bg-surface/40 hover:bg-surface border border-border-primary hover:border-border-hover rounded-lg transition-all active:scale-95 cursor-pointer focus-ring"
+                  aria-label="Close details inspector"
+                >
+                  <X className="h-5 w-5" />
+                </button>
+              </div>
+
+              <div className="flex-grow">
+                <NamespaceList clusterId={selectedCluster} />
+              </div>
+            </motion.div>
+          </>
+        )}
+      </AnimatePresence>
     </section>
   );
 }
