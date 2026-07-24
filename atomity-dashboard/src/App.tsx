@@ -1,11 +1,9 @@
-import { Card } from "./components/ui";
+import FeatureSection from "./components/dashboard/FeatureSection/FeatureSection";
 
 function App() {
   return (
     <main>
-      <Card>
-        <h1>Atomity Dashboard</h1>
-      </Card>
+      <FeatureSection />
     </main>
   );
 }
