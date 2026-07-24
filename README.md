@@ -1,83 +1,210 @@
-# Atomity Cloud Cost Explorer Dashboard
+# Atomity Frontend Engineering Challenge
 
-A premium, production-grade cloud infrastructure dashboard built for the Atomity Frontend Engineering Challenge. Designed with inspiration from professional SaaS platforms like **Vercel**, **Linear**, and **Datadog**, this application facilitates deep resource profiling and estimated spend exploration across multi-node clusters.
 
----
+## Overview
 
-## 🌟 Key Features & Enhancements
+This project is my submission for the **Atomity Frontend Engineering Challenge**.
 
-### 1. Interactive Inspector Drawer (Drawer Slide-Over Overlay)
-* **The Problem**: In the initial junior-developer setup, clicking on a cluster displayed its namespaces and pods at the bottom of the page. With 30 active clusters, this forced users to scroll past the entire cluster grid to view drill-down data.
-* **The Solution**: We introduced a slide-over **Cluster Inspector Panel** (drawer layout). Clicking a card immediately slides in a detailed view from the right. It includes:
-  - Background backdrop blur overlays.
-  - Keyboard accessibility (closes on `Escape` key).
-  - Background scroll-locking to focus scroll interactions inside the drawer.
-  - Interactive close button triggers.
+I chose **Option A (0:30–0:40)** from the provided product video and built an interactive **Cloud Cost Explorer** dashboard inspired by cloud management platforms like Kubecost.
 
-### 2. Full-Screen Canvas & Spacing Rhythm
-* **Layout Span**: Changed page layout constraints from `max-w-7xl` (1280px) to `max-w-full px-6 md:px-10 lg:px-12`. This allows the grid to occupy the full width of widescreen/ultra-wide monitors, distributing cards evenly across the screen.
-* **Visual Rhythm**: Increased padding inside cards (`p-6` to `p-7`) and increased margins between panels (48px between sections, 10px-24px vertical label margins) to give text elements breathing room.
-
-### 3. Component Architecture: Extracted Namespace Cards
-* Implemented the previously missing `NamespaceCard.tsx` component, matching the architecture of `ClusterCard.tsx`. This aligns namespace views with the reusable component pattern.
+The goal was not to recreate the video pixel-for-pixel, but to interpret the feature and build a reusable, responsive, and animated frontend experience.
 
 ---
 
-## 🎬 Animation Approach (Framer Motion)
+# Why I Chose Option A
 
-Our animations are **subtle, physics-driven, and intentional**, designed to mimic enterprise tools rather than marketing websites:
+I selected **Option A** because it demonstrates an interactive workflow rather than a static UI.
 
-* **Staggered Entrances**: Applied `staggerChildren` layout variants to grids. Cluster cards, namespace blocks, and pod rows slide up and fade in sequentially with spring transitions (`type: "spring", damping: 25, stiffness: 300`).
-* **Micro-interactions**: Enhanced buttons and cards with hover elevation/glow offsets and active tap scales (`whileHover={{ y: -3 }}`, `whileTap={{ scale: 0.98 }}`).
-* **Transition Anchors**: Wrapped conditional layouts inside `<AnimatePresence>` to manage slide-in exit states smoothly.
-* **Reduced Motion**: Respects `prefers-reduced-motion` settings automatically via standard Framer Motion configurations.
+The dashboard allows users to:
 
----
+- View multiple cloud clusters
+- Select a cluster
+- Drill down into namespaces
+- Explore pod-level information
 
-## 🎨 Styles & Design System Tokens
-
-The application leverages a hybrid configuration of **CSS custom properties** and **Tailwind CSS v4 `@theme` bindings** to enforce a cohesive design language:
-
-* **Typography**: Imported Google Fonts `Inter` (used for descriptive text, badges, and headings) and `JetBrains Mono` (used for data numbers, estimated spent tags, and system IDs).
-* **Color System**: Custom properties defined in `variables.css` establish unified modes for background slates, subtle container boundaries, and system metrics fill states:
-  - Success elements: `#10b981` (Green fill, `rgba(16, 185, 129, 0.15)` bg)
-  - Warning elements: `#f59e0b` (Amber fill, `rgba(245, 158, 11, 0.15)` bg)
-  - Danger elements: `#ef4444` (Red fill, `rgba(239, 68, 68, 0.15)` bg)
-* **Tailwind Binding**: Integrated CSS properties directly inside the Tailwind v4 `@theme` directive in `globals.css` (e.g. `bg-surface`, `border-border-primary`, `text-brand-glow`), keeping code clean and utility classes consistent.
+This interaction provided a good opportunity to demonstrate component architecture, state management, animations, and API-driven rendering.
 
 ---
 
-## ⚡ Data Fetching & Caching Strategy
+# Project Features
 
-Data is handled using **TanStack React Query** and **Axios**:
-
-* **Caching Lifecycle**: Configured custom caching configurations (`staleTime: 5 mins`, `gcTime: 10 mins`) to prevent redundant net calls while maintaining instant click-through responses for cached elements.
-* **Shared Cache Calculations**: Exposed cluster data globally inside `FeatureSection.tsx` from the React Query cache. This allowed us to calculate system aggregates (Total Spend, Avg CPU, Avg RAM) dynamically for the top summary metrics banner at zero network overhead cost.
-* **Preventing Layout Shifts (CLS)**: Replaced generic `<p>Loading...</p>` text labels with custom layout skeletons (`ClusterCardSkeleton`, `NamespaceCardSkeleton`, `PodCardSkeleton`) that mimic the actual card layout during loading transitions.
-
----
-
-## 🛠️ Libraries Used & Rationale
-
-* **React 19 & TypeScript**: Ensured high-fidelity type safety and React 19 rendering features.
-* **Vite**: Super-fast bundler for rapid hot module replacement (HMR).
-* **Tailwind CSS v4**: Employed modern utility styling, CSS nesting, and `@theme` directives.
-* **Framer Motion**: Provided spring physics engines for card elevations, list entrance stagger arrays, and side-sheet animations.
-* **Lucide React**: Integrated lightweight, high-fidelity system icons (Server, Cpu, Activity, Boxes, Folder, DollarSign, X, ArrowLeft) matching cloud consoles.
-* **Axios**: Standard client wrapper for handling network requests.
+- Interactive Cloud Cost Dashboard
+- Cluster → Namespace → Pod drill-down
+- Dynamic KPI cards
+- Responsive layout
+- Smooth Framer Motion animations
+- API-driven data
+- React Query caching
+- Reusable UI components
+- Design token-based styling
+- Loading, error, and empty states
 
 ---
 
-## ⚖️ Trade-offs & Decisions
+# Animation Approach
 
-* **Inline Render State vs. Effects**: We resolved an ESLint warning (`react-hooks/set-state-in-effect`) by avoiding React effects (`useEffect`) to synchronize state between prop updates. Instead, we implemented React's recommended inline state adjustment pattern (diffing `prevClusterId` during render). This avoids unnecessary extra rendering passes and runs faster.
-* **Width Cap**: While allowing full-width scaling on ultra-wide screens, grid column configurations are kept in responsive brackets (`grid-cols-3` maximum) to ensure card width proportions remain elegant.
-* **Drawer Panels vs. Modals**: Selected a sliding side drawer layout instead of a centered modal. Side panels naturally fit vertical metric lists (namespaces and pods) by utilizing the screen's full vertical height.
+Animations were designed to feel subtle and purposeful instead of distracting.
+
+The application uses **Framer Motion** for:
+
+- Scroll entrance animations
+- Staggered card animations
+- Hover interactions
+- Selection transitions
+- Smooth layout changes between dashboard sections
+
+The goal was to create an experience similar to modern SaaS dashboards while keeping interactions lightweight and responsive.
 
 ---
 
-## 🔮 What I Would Improve with More Time
+# Design Tokens & Styling
 
-1. **Virtualized Grids**: Integrate `react-window` or `react-virtual` inside `ClusterGrid` to virtualization-render cards if the active cluster list grows from 30 nodes to thousands.
-2. **WebSocket Integration**: Connect real-time streaming sockets to push CPU and memory state fluctuations directly into the progress indicators.
-3. **E2E Testing**: Add Playwright test specs to verify tab-index keyboard trapping, escape-key closers, and ARIA announcement readings.
+To avoid hardcoded styling throughout the project, I created a small design token system using CSS variables.
+
+This includes tokens for:
+
+- Colors
+- Border radius
+- Spacing
+- Shadows
+
+Components reference these tokens instead of individual color values, making the design easier to maintain and extend.
+
+Tailwind CSS is used for utility-based styling while keeping components clean and reusable.
+
+---
+
+# Data Fetching & Caching
+
+The assignment required data to come from a public API rather than being hardcoded.
+
+I used **DummyJSON** as the data source.
+
+Since DummyJSON does not provide cloud infrastructure data, I transformed the API responses into domain-specific objects such as:
+
+- Clusters
+- Namespaces
+- Pods
+
+This approach demonstrates how frontend applications often adapt generic backend responses into application-specific models.
+
+Data fetching is handled using **TanStack React Query**, which provides:
+
+- Automatic caching
+- Loading states
+- Error handling
+- Reduced unnecessary network requests
+
+---
+# architecture diagram
+
+DummyJSON API
+        │
+        ▼
+Axios Client
+        │
+        ▼
+React Query
+        │
+        ▼
+Transform API Data
+        │
+        ▼
+Cloud Dashboard
+        │
+        ├── Clusters
+        ├── Namespaces
+        └── Pods
+
+# Component Structure
+
+The project is organized into reusable modules instead of large monolithic files.
+
+```
+src/
+│
+├── api/
+├── components/
+│   ├── dashboard/
+│   ├── layout/
+│   └── ui/
+├── hooks/
+├── providers/
+├── styles/
+├── tokens/
+├── types/
+└── utils/
+```
+
+This structure keeps UI, business logic, API calls, and styling separated.
+
+---
+
+# Libraries Used
+
+| Library | Why I Used It |
+|----------|---------------|
+| React + TypeScript | Component-based development with type safety |
+| Vite | Fast development and build tooling |
+| Tailwind CSS | Utility-first styling with responsive design |
+| Framer Motion | Smooth animations and transitions |
+| TanStack React Query | API fetching, caching, loading, and error handling |
+| Axios | Simple HTTP client for API requests |
+| Lucide React | Lightweight icons |
+
+---
+
+# Trade-offs & Decisions
+
+One challenge was that the public API did not provide cloud infrastructure data.
+
+Instead of hardcoding all content, I used the API as the source of truth and transformed its responses into realistic dashboard entities. This allowed the project to satisfy the assignment's API integration requirement while presenting meaningful cloud management data.
+
+Another decision was to keep the UI component-driven, making it easier to reuse cards, badges, progress bars, and other elements across different sections.
+
+---
+
+# If I Had More Time
+
+Given additional time, I would like to add:
+
+- Real-time updates using WebSockets
+- Search and filtering for clusters
+- Historical usage charts
+- Better accessibility testing
+- Unit and integration tests
+- Light/Dark theme toggle
+- Virtualized rendering for very large datasets
+
+---
+
+# Running the Project
+
+```bash
+npm install
+
+npm run dev
+```
+
+Build for production:
+
+```bash
+npm run build
+```
+
+---
+
+# Tech Stack
+
+- React
+- TypeScript
+- Vite
+- Tailwind CSS
+- Framer Motion
+- TanStack React Query
+- Axios
+- DummyJSON API
+
+---
+
+Thank you for taking the time to review my submission. I enjoyed interpreting the product and building this dashboard while focusing on reusable architecture, smooth interactions, and modern frontend development practices.
