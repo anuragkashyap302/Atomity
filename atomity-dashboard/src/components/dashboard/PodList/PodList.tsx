@@ -66,11 +66,11 @@ export default function PodList({ namespaceId }: Props) {
         variants={containerVariants}
         initial="hidden"
         animate="show"
-        className="grid gap-3"
+        className="grid gap-4"
       >
         {pods?.map((pod) => (
           <motion.div key={pod.id} variants={itemVariants} layout>
-            <Card className="flex flex-col md:flex-row md:items-center justify-between gap-4 border border-border-primary hover:border-border-hover bg-surface/30">
+            <Card className="flex flex-col md:flex-row md:items-center justify-between gap-6 border border-border-primary hover:border-border-hover bg-surface/30 p-6">
               <div className="flex items-center gap-3">
                 <div className="p-2 rounded-lg bg-white/5 border border-white/5 text-text-secondary">
                   <Boxes className="h-4 w-4" />
@@ -85,7 +85,7 @@ export default function PodList({ namespaceId }: Props) {
                 </div>
               </div>
 
-              <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-4 sm:gap-6 flex-grow max-w-md md:ml-auto">
+              <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-5 sm:gap-8 flex-grow max-w-md md:ml-auto">
                 <ProgressBar
                   value={pod.cpu}
                   label="CPU"

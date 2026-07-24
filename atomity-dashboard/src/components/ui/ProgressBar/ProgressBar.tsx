@@ -24,7 +24,7 @@ export default function ProgressBar({
       : "bg-brand";
 
   return (
-    <div className={cn("w-full space-y-1.5", className)}>
+    <div className={cn("w-full space-y-2.5", className)}>
       {(label || showValueText) && (
         <div className="flex items-center justify-between text-xs font-medium text-text-secondary select-none">
           <span>{label}</span>

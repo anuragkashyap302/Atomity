@@ -32,7 +32,7 @@ export default function NamespaceCard({
       <Card
         variant="interactive"
         className={cn(
-          "flex flex-col gap-4",
+          "flex flex-col gap-5",
           selected
             ? "border-brand/60 bg-brand/5 shadow-[0_0_15px_rgba(59,130,246,0.08)]"
             : "hover:border-border-hover"
@@ -76,7 +76,7 @@ export default function NamespaceCard({
           </span>
         </div>
 
-        <div className="grid gap-3 pt-2">
+        <div className="grid gap-5 pt-3">
           <ProgressBar
             value={namespace.cpu}
             label="CPU Allocation"

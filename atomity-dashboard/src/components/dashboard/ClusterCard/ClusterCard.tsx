@@ -32,7 +32,7 @@ export default function ClusterCard({
       <Card
         variant="interactive"
         className={cn(
-          "flex flex-col gap-5 h-full",
+          "flex flex-col gap-6 h-full",
           selected
             ? "border-brand bg-brand/5 shadow-[0_0_15px_rgba(59,130,246,0.08)]"
             : "hover:border-border-hover"
@@ -74,7 +74,7 @@ export default function ClusterCard({
           </span>
         </div>
 
-        <div className="space-y-3.5 flex-grow pt-2">
+        <div className="space-y-5 flex-grow pt-3">
           <ProgressBar
             value={cluster.cpu}
             label="CPU Allocation"
@@ -92,7 +92,7 @@ export default function ClusterCard({
           />
         </div>
 
-        <div className="flex justify-between items-baseline border-t border-border-primary pt-4 mt-auto">
+        <div className="flex justify-between items-baseline border-t border-border-primary pt-5 mt-auto">
           <span className="text-xs text-text-secondary font-medium select-none">
             Estimated Spend
           </span>
