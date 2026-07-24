@@ -1,13 +1,21 @@
 import Card from "../../ui/Card/Card";
 import ProgressBar from "../../ui/ProgressBar/ProgressBar";
-import { generatePods } from "../../../utils/generatePods";
+import { usePods } from "../../../hooks/usePods";
 
 type Props = {
-  namespaceId: string;
+  namespaceId: number;
 };
 
 export default function PodList({ namespaceId }: Props) {
-  const pods = generatePods(namespaceId);
+  const {
+  data: pods,
+  isLoading,
+  error,
+} = usePods(namespaceId);
+
+if (isLoading) return <p>Loading pods...</p>;
+
+if (error) return <p>Failed to load pods.</p>;
 
   return (
     <div className="mt-10">
@@ -16,7 +24,7 @@ export default function PodList({ namespaceId }: Props) {
       </h2>
 
       <div className="grid gap-4">
-        {pods.map((pod) => (
+        {pods?.map((pod) => (
           <Card key={pod.id}>
             <div className="flex items-center justify-between">
               <div>

@@ -1,6 +1,6 @@
 import { useState } from "react";
 import Card from "../../ui/Card/Card";
-import { generateNamespaces } from "../../../utils/generateNamespaces";
+import { useNamespaces } from "../../../hooks/useNamespaces";
 import PodList from "../PodList/PodList";
 
 type Props = {
@@ -8,8 +8,16 @@ type Props = {
 };
 
 export default function NamespaceList({ clusterId }: Props) {
-    const [selectedNamespace, setSelectedNamespace] = useState<string | null>(null);
-  const namespaces = generateNamespaces(clusterId);
+   const [selectedNamespace, setSelectedNamespace] = useState<number | null>(null);
+  const {
+  data: namespaces,
+  isLoading,
+  error,
+} = useNamespaces(clusterId);
+
+if (isLoading) return <p>Loading namespaces...</p>;
+
+if (error) return <p>Failed to load namespaces.</p>;
 
   return (
     <div className="mt-10">
@@ -18,7 +26,7 @@ export default function NamespaceList({ clusterId }: Props) {
       </h2>
 
       <div className="grid gap-4 md:grid-cols-2">
-        {namespaces.map((namespace) => (
+        {namespaces?.map((namespace) => (
          <Card
     key={namespace.id}
     onClick={() => setSelectedNamespace(namespace.id)}
