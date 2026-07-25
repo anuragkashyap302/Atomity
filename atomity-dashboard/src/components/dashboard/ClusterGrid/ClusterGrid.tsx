@@ -9,11 +9,14 @@ type Props = {
 };
 
 const containerVariants = {
-  hidden: { opacity: 0 },
+  hidden: {
+    opacity: 0,
+  },
   show: {
     opacity: 1,
     transition: {
-      staggerChildren: 0.05,
+      staggerChildren: 0.12,
+      delayChildren: 0.15,
     },
   },
 };
@@ -59,7 +62,15 @@ export default function ClusterGrid({
       variants={containerVariants}
       initial="hidden"
       animate="show"
-      className="grid gap-6 md:grid-cols-2 lg:grid-cols-3"
+      className="
+grid
+grid-cols-1
+md:grid-cols-2
+xl:grid-cols-3
+2xl:grid-cols-3
+gap-8
+mt-8
+"
     >
       {data?.map((cluster) => (
         <motion.div key={cluster.id} variants={itemVariants} layout>
@@ -72,4 +83,4 @@ export default function ClusterGrid({
       ))}
     </motion.div>
   );
-}
+}

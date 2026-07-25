@@ -113,4 +113,4 @@ export default function PodList({ namespaceId }: Props) {
       </motion.div>
     </div>
   );
-}
+}

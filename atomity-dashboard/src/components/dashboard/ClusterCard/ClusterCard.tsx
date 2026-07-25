@@ -25,17 +25,37 @@ export default function ClusterCard({
 
   return (
     <motion.div
-      whileHover={{ y: -3, transition: { duration: 0.15 } }}
-      whileTap={{ scale: 0.98 }}
+      whileHover={{
+    y: -8,
+    scale: 1.02,
+    transition:{
+        duration:.25,
+        ease:"easeOut"
+    }
+}}
+whileTap={{
+    scale:.98
+}}
       className="outline-none focus-ring rounded-xl"
     >
       <Card
         variant="interactive"
         className={cn(
-          "flex flex-col gap-6 h-full",
+            "flex flex-col h-full p-6 rounded-2xl bg-gradient-to-b from-[#111827] to-[#0b1220] border border-white/10 shadow-[0_8px_35px_rgba(0,0,0,0.35)] backdrop-blur-xl transition-all duration-300" ,
           selected
-            ? "border-brand bg-brand/5 shadow-[0_0_15px_rgba(59,130,246,0.08)]"
-            : "hover:border-border-hover"
+? `
+border-blue-500/60
+bg-gradient-to-b
+from-blue-500/10
+to-transparent
+shadow-[0_15px_45px_rgba(59,130,246,.22)]
+ring-1
+ring-blue-400/20
+`
+: `
+hover:border-white/20
+hover:shadow-[0_15px_35px_rgba(0,0,0,.35)]
+`
         )}
         onClick={onClick}
         tabIndex={0}
@@ -106,4 +126,4 @@ export default function ClusterCard({
       </Card>
     </motion.div>
   );
-}
+}

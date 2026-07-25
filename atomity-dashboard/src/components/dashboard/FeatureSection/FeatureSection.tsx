@@ -95,7 +95,7 @@ export default function FeatureSection() {
           transition={{ duration: 0.5, delay: 0.1 }}
           className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4 mb-14 mt-6"
         >
-          <div className="rounded-xl border border-border-primary bg-surface/30 p-6 flex items-center gap-4">
+          <div className="rounded-xl border border-border-primary bg-surface/30 p-6 flex items-center gap-4 mt-4">
             <div className="p-3 rounded-lg bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
               <DollarSign className="h-5 w-5" />
             </div>
@@ -219,4 +219,4 @@ export default function FeatureSection() {
       </AnimatePresence>
     </section>
   );
-}
+}

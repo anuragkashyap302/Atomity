@@ -106,4 +106,4 @@ export default function NamespaceList({ clusterId }: Props) {
       </AnimatePresence>
     </div>
   );
-}
+}
